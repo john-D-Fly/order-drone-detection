@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Decentrafly — Order Drone Detection</title>
+  <meta name="description" content="Apple.com‑style checkout for Decentrafly drone detection. Static, GitHub Pages ready. Submits to Formspree." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+    :root{
+      --bg:#0a0a0a;--card:#111;--elev:#161616;--text:#f5f5f7;--muted:#a1a1a6;--accent:#2997ff;--success:#34c759;--danger:#ff3b30;--ring:0 0 0 2px rgba(41,151,255,.4);--shadow:0 10px 30px rgba(0,0,0,.35);--radius:22px
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:radial-gradient(1200px 800px at 20% -10%, #1a1a1a 0%, var(--bg) 60%),linear-gradient(180deg, #0b0b0c, #050505);color:var(--text);font:16px/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased;letter-spacing:.01em}
+    a{color:var(--accent);text-decoration:none}
+    .container{max-width:1100px;margin:0 auto;padding:32px 20px 80px}
+    header{display:flex;align-items:center;gap:14px;padding:14px 0 6px;position:sticky;top:0;background:linear-gradient(180deg, rgba(10,10,10,.98), rgba(10,10,10,.86));backdrop-filter:saturate(130%) blur(10px);z-index:20}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:600}
+    .logo-dot{width:18px;height:18px;border-radius:50%;background:conic-gradient(from 210deg, #3bf 0 25%, #0bf 0 50%, #09f 0 75%, #3bf 0 100%);box-shadow:0 0 24px rgba(41,151,255,.45)}
+    .brand{letter-spacing:.02em}
+    .nav-help{margin-left:auto;font-size:.95rem;color:var(--muted)}
+    h1{font-size:clamp(28px,4vw,42px);line-height:1.1;margin:24px 0 8px}
+    .subtitle{color:var(--muted);font-size:1.05rem;margin-bottom:8px}
+    .specs{list-style:none;margin:8px 0 24px;padding:0;color:var(--muted)}
+    .specs li{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #1f1f21}
+    .specs li:last-child{border-bottom:none}
+    .specs li::before{content:"";width:6px;height:6px;border-radius:50%;background:#3a7bff;margin-top:9px;flex:0 0 6px;box-shadow:0 0 8px rgba(58,123,255,.6)}
+    .grid{display:grid;grid-template-columns: 1.4fr .9fr; gap:22px}
+    @media (max-width: 960px){.grid{grid-template-columns:1fr}}
+    .panel{background:linear-gradient(180deg, var(--card), var(--elev));border:1px solid #1f1f21;border-radius:var(--radius);box-shadow:var(--shadow)}
+    .panel .inner{padding:22px 22px}
+    .step{border-top:1px solid #1f1f21}
+    .step:first-child{border-top:none}
+    .step h3{font-size:1rem;font-weight:600;margin:0 0 12px}
+    .choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+    .choice{position:relative;border:1px solid #232325;background:#121214;border-radius:16px;padding:14px;cursor:pointer;transition:transform .15s ease, border-color .15s ease}
+    .choice:hover{transform:translateY(-1px)}
+    input[type="radio"],input[type="checkbox"]{accent-color:var(--accent)}
+    .choice input{position:absolute;inset:0;opacity:0;cursor:pointer}
+    .choice .title{font-weight:600}
+    .choice .price{color:var(--muted);font-size:.95rem;margin-top:6px}
+    .choice.selected{border-color:#2c74ff;box-shadow:var(--ring)}
+    .qty{display:flex;align-items:center;gap:10px}
+    .qty button{border:1px solid #2a2a2d;background:#121214;border-radius:12px;min-width:36px;height:36px;color:var(--text);font-size:18px;cursor:pointer}
+    .qty input{width:64px;text-align:center;border:1px solid #2a2a2d;background:#121214;border-radius:12px;padding:8px;color:var(--text)}
+    .fields{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .fields .full{grid-column:1 / -1}
+    label{display:block;font-size:.95rem;margin-bottom:6px;color:var(--muted)}
+    input,select,textarea{width:100%;border:1px solid #2a2a2d;background:#121214;border-radius:12px;padding:12px 14px;color:var(--text)}
+    textarea{min-height:96px;resize:vertical}
+    .summary{position:sticky;top:76px}
+    .sum-head{display:flex;align-items:center;justify-content:space-between;padding:16px 16px;border-bottom:1px solid #1f1f21}
+    .sum-items{padding:16px}
+    .sum-item{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed #2a2a2d}
+    .sum-item:last-child{border-bottom:none}
+    .sum-muted{color:var(--muted);font-size:.95rem}
+    .sum-total{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .sum-row{display:flex;justify-content:space-between;font-weight:600}
+    .submit-bar{display:flex;flex-wrap:wrap;gap:12px;padding:16px;border-top:1px solid #1f1f21;background:#0f0f10;border-radius:0 0 var(--radius) var(--radius)}
+    .btn{appearance:none;border:none;border-radius:14px;padding:14px 16px;font-weight:600;cursor:pointer}
+    .btn.primary{background:linear-gradient(180deg, #3a7bff, #1f57ff);color:white;box-shadow:0 6px 20px rgba(46,112,255,.35)}
+    .btn.secondary{background:#151515;border:1px solid #2a2a2d;color:var(--text)}
+    .legal{color:var(--muted);font-size:.85rem;margin-top:18px}
+    .badge{font-size:.75rem;padding:4px 8px;border-radius:999px;border:1px solid #2a2a2d;color:var(--muted)}
+    .toast{position:fixed;inset:auto 16px 16px auto;z-index:50;background:#0f2016;color:#d8ffe3;border:1px solid #1a3f2c;border-radius:14px;padding:12px 14px;box-shadow:0 10px 30px rgba(0,0,0,.4);display:none}
+    .toast.show{display:block}
+  .help-card{display:grid;grid-template-columns:120px 1fr 28px;gap:14px;align-items:center;background:#141415;border:1px solid #2a2a2d;border-radius:16px;padding:12px;margin-top:12px}
+.help-thumb{width:100%;aspect-ratio:16/9;border-radius:12px;background:linear-gradient(135deg,#202024,#0f0f11);display:grid;place-items:center;font-size:.8rem;color:var(--muted)}
+.help-title{font-weight:700}
+.help-text{color:var(--muted);font-size:.95rem}
+.help-plus{justify-self:end;width:28px;height:28px;border:1px solid #2a2a2d;border-radius:999px;display:grid;place-items:center;color:var(--muted);font-weight:700}
+.help-card{border:1px solid #2a2a2d;border-radius:16px;background:#141415;margin-top:12px;overflow:hidden}
+.help-card:not(details){display:none!important}
+details.help-card summary{display:grid;grid-template-columns:120px 1fr 28px;gap:14px;align-items:center;padding:12px;list-style:none;cursor:pointer}
+details.help-card summary::-webkit-details-marker{display:none}
+.help-thumb{width:100%;aspect-ratio:16/9;border-radius:12px;background:linear-gradient(135deg,#202024,#0f0f11);display:grid;place-items:center;font-size:.8rem;color:var(--muted)}
+.help-title{font-weight:700}
+.help-text{color:var(--muted);font-size:.95rem}
+.help-plus{justify-self:end;width:28px;height:28px;border:1px solid #2a2a2d;border-radius:999px;display:grid;place-items:center;color:var(--muted);font-weight:700;transition:transform .2s ease}
+.help-more{padding:12px;border-top:1px solid #2a2a2d;color:var(--muted);background:#121214}
+details.help-card[open] .help-plus{transform:rotate(90deg)}
+.help-link{display:inline-flex;align-items:center;gap:8px;margin:2px 0 10px;color:var(--accent);font-weight:600}
+.help-link .circ{width:20px;height:20px;border:1px solid #2a2a2d;border-radius:999px;display:grid;place-items:center}
+/* Modal overlay */
+.modal{position:fixed;inset:0;z-index:60;display:none}
+.modal.open{display:block}
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(2px)}
+.modal-sheet{position:relative;margin:6vh auto;max-width:900px;max-height:88vh;overflow:auto;background:#fff;color:#111;border-radius:22px;padding:28px 28px 32px;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.modal-close{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:999px;border:1px solid #d0d0d0;background:#fff;color:#111;font-size:22px;cursor:pointer}
+.modal-sheet h2{font-size:clamp(24px,3vw,36px);margin:6px 0 12px}
+.modal-sheet p{color:#333;line-height:1.6}
+.modal-grid{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:860px){.modal-grid{grid-template-columns:1fr 1fr}}
+.coverage{margin:8px 0 0;color:var(--muted);font-size:.93rem}
+.coverage strong{color:var(--text)}
+.coverage .pill{display:inline-block;padding:3px 8px;border:1px solid #2a2a2d;border-radius:999px;margin-left:6px;font-size:.82rem}
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo" aria-label="Decentrafly">
+        <span class="logo-dot" aria-hidden="true"></span>
+        <span class="brand">Decentrafly</span>
+      </div>
+      <div class="nav-help">Questions? <a href="#" onclick="document.getElementById('notes').focus()">Add a note</a> • <span class="badge">NDAA‑compliant options</span></div>
+    </header>
+
+    <main class="grid" id="checkout">
+      <section class="panel" aria-labelledby="title">
+        <div class="inner">
+          <h1 id="title">Order Drone Detection</h1>
+          <p class="subtitle">Customize your Decentrafly deployment. Submit your configuration and we’ll follow up with scheduling — no payment collected here.</p>
+          <ul class="specs">
+            <li><div>Criminal Justice Information System (CJIS) compliant to securely store evidentiary detection data.</div></li>
+            <li><div>Patented data tokenization enables end‑to‑end privacy for node operators.</div></li>
+            <li><div>Install in less than <strong>1 hour</strong>.</div></li>
+            <li><div>Integrates with existing computer aided dispatch (CAD) systems.</div></li>
+            <li><div>Lifetime warranty and software upgrades to enable up to date detection </div></li>
+          </ul>
+        </div>
+
+        <form id="orderForm" class="inner" action="https://formspree.io/f/your_form_id" method="POST" novalidate>
+          <!-- Hidden fields populated before submit -->
+          <input type="hidden" name="order_json" id="order_json" />
+          <input type="hidden" name="computed_upfront" id="computed_upfront" />
+          <input type="hidden" name="computed_annual" id="computed_annual" />
+          <input type="hidden" name="coverage_min_sqmi" id="coverage_min_sqmi" />
+          <input type="hidden" name="coverage_max_sqmi" id="coverage_max_sqmi" />
+
+          <!-- STEP 1: Tier -->
+          <div class="step" id="step-tier">
+            <h3>Tier. Choose your detection level</h3>
+            <button type="button" class="help-link" data-modal-target="modal-tier"><span>Remote ID vs. Uncooperative detection</span> <span class="circ">＋</span></button>
+            <div class="choices" role="radiogroup" aria-labelledby="step-tier">
+              <label class="choice selected" data-key="node" data-annual="2000">
+                <input type="radio" name="tier" value="Node (remoteID only)" checked>
+                <div class="title">Node (remoteID only)</div>
+                <div class="price">$2000 / yr per device</div>
+              </label>
+              <label class="choice" data-key="nodepro" data-annual="4000">
+                <input type="radio" name="tier" value="Node Pro (uncooperative detection)">
+                <div class="title">Node Pro (uncooperative detection)</div>
+                <div class="price">$4000 / yr per device</div>
+              </label>
+            </div>
+
+            <!-- HELP: Tier (separate) -->
+            
+
+            <div style="margin-top:12px" class="qty" aria-label="Quantity">
+              <button type="button" id="minusQty" aria-label="Decrease quantity">–</button>
+              <input id="quantity" name="quantity" type="number" min="1" step="1" value="1" inputmode="numeric" />
+              <button type="button" id="plusQty" aria-label="Increase quantity">+</button>
+              <span class="sum-muted">Billed annually. Volume pricing available.</span>
+            </div>
+            <div class="coverage" id="coverageEst">Estimated coverage: <strong>2–3 mi²</strong> <span class="pill">~2–3 mi² per node</span></div>
+            <button type="button" class="help-link" data-modal-target="modal-nodes"><span>How many nodes do I need?</span> <span class="circ">＋</span></button>
+          </div>
+
+          <div class="step" id="step-compliance">
+            <h3>Compliance</h3>
+            <button type="button" class="help-link" data-modal-target="modal-compliance"><span>Do I need NDAA compliance?</span> <span class="circ">＋</span></button>
+            <div class="choices" role="radiogroup" aria-labelledby="step-compliance">
+              <label class="choice selected" data-key="non" data-upfront="0">
+                <input type="radio" name="compliance" value="Non‑NDAA Compliant" checked>
+                <div class="title">Non‑NDAA Compliant</div>
+                <div class="price">$0 one‑time</div>
+              </label>
+              <label class="choice" data-key="ndaa" data-upfront="2500">
+                <input type="radio" name="compliance" value="NDAA Compliant">
+                <div class="title">NDAA Compliant</div>
+                <div class="price">+$2500 one‑time</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- STEP 3: Connectivity -->
+          <div class="step" id="step-connectivity">
+            <h3>Connectivity</h3>
+            <button type="button" class="help-link" data-modal-target="modal-connectivity"><span>Wired Ethernet vs. FirstNet / Starlink</span> <span class="circ">＋</span></button>
+            <div class="choices" role="radiogroup" aria-labelledby="step-connectivity">
+              <label class="choice selected" data-key="none" data-annual="0">
+                <input type="radio" name="connectivity" value="No Internet" checked>
+                <div class="title">Customer Supplied Internet</div>
+                <div class="price">$0 / yr</div>
+              </label>
+              <label class="choice" data-key="firstnet" data-annual="500">
+                <input type="radio" name="connectivity" value="FirstNet LTE">
+                <div class="title">FirstNet LTE</div>
+                <div class="price">+$500 / yr</div>
+              </label>
+              <label class="choice" data-key="starlink" data-annual="750">
+                <input type="radio" name="connectivity" value="Starlink">
+                <div class="title">Starlink</div>
+                <div class="price">+$750 / yr</div>
+              </label>
+            </div>
+
+            <!-- HELP: Connectivity (separate) -->
+            
+          </div>
+
+          <!-- STEP 4: Power -->
+          <div class="step" id="step-power">
+            <h3>Power</h3>
+            <button type="button" class="help-link" data-modal-target="modal-power"><span>AC vs. Battery + Solar</span> <span class="circ">＋</span></button>
+            <div class="choices" role="radiogroup" aria-labelledby="step-power">
+              <label class="choice selected" data-key="ac" data-annual="0">
+                <input type="radio" name="power" value="AC Power Supply" checked>
+                <div class="title">AC Power Supply</div>
+                <div class="price">$0 / yr</div>
+              </label>
+              <label class="choice" data-key="solar" data-annual="500">
+                <input type="radio" name="power" value="Battery + Solar">
+                <div class="title">Battery + Solar</div>
+                <div class="price">+$500 / yr</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- STEP: Contact & delivery -->
+          <div class="step">
+            <h3>Contact & delivery</h3>
+            <div class="fields">
+              <div>
+                <label for="full_name">Full name</label>
+                <input id="full_name" name="full_name" autocomplete="name" required />
+              </div>
+              <div>
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" required />
+              </div>
+              <div>
+                <label for="company">Organization (optional)</label>
+                <input id="company" name="company" autocomplete="organization" />
+              </div>
+              <div>
+                <label for="phone">Phone</label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel" />
+              </div>
+              <div class="full">
+                <label for="address">Install / ship to address</label>
+                <input id="address" name="address" autocomplete="street-address" required />
+              </div>
+              <div>
+                <label for="city">City</label>
+                <input id="city" name="city" autocomplete="address-level2" required />
+              </div>
+              <div>
+                <label for="state">State / Region</label>
+                <input id="state" name="state" autocomplete="address-level1" required />
+              </div>
+              <div>
+                <label for="zip">Postal code</label>
+                <input id="zip" name="zip" autocomplete="postal-code" required />
+              </div>
+              <div class="full">
+                <label for="notes">Notes (site access, dates, RF constraints, etc.)</label>
+                <textarea id="notes" name="notes" placeholder="Tell us anything that helps us schedule + configure."></textarea>
+              </div>
+              <div class="full">
+                <label><input type="checkbox" required name="agree" /> I agree to be contacted about this order and accept the Terms.</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="submit-bar">
+            <button class="btn primary" type="submit">Submit configuration</button>
+            <button class="btn secondary" type="reset">Reset</button>
+            <div class="legal">Recurring services billed annually. Taxes & shipping (if any) on the invoice.</div>
+          </div>
+        </form>
+      </section>
+
+      <!-- SUMMARY -->
+      <aside class="panel summary" aria-live="polite">
+        <div class="sum-head">
+          <div>
+            <div style="font-weight:700">Order Summary</div>
+            <div class="sum-muted" id="sumTitle">Node (remoteID only) ×1</div>
+          </div>
+          <div class="sum-muted">v1.1</div>
+        </div>
+        <div class="sum-items" id="sumItems"></div>
+        <div class="sum-items">
+          <div class="sum-total">
+            <div class="sum-row"><span>Due today</span><span id="sumUpfront">$0</span></div>
+            <div class="sum-row"><span>Annual</span><span id="sumAnnual">$2000/yr</span></div>
+          </div>
+          <p class="legal">Totals shown exclude taxes. One‑time NDAA surcharge applies if selected.</p>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <!-- MODALS -->
+  <div class="modal" id="modal-tier" role="dialog" aria-modal="true" aria-labelledby="modal-tier-title" aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-sheet" role="document">
+      <button class="modal-close" data-close aria-label="Close">×</button>
+      <h2 id="modal-tier-title">Remote ID vs. Uncooperative Detection</h2>
+      <div class="modal-grid">
+        <div>
+          <h3>Remote ID (Node)</h3>
+          <p>Detects drones that broadcast <strong>FAA Remote ID</strong>. Ideal when your risk model focuses on compliant pilots: campuses, facilities, and events that want basic awareness and logging.</p>
+          <ul>
+            <li>Tracks RID‑broadcasting drones with ID, position, and timestamps</li>
+            <li>Fast deployment and lowest annual cost</li>
+            <li>Limitations: does not detect aircraft with RID disabled/spoofed</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Uncooperative detection (Node Pro)</h3>
+          <p>Finds drones that <em>do not</em> broadcast Remote ID by analyzing RF emissions and other signals. Best for stadiums, corrections, energy sites, airports, and VIP events.</p>
+          <ul>
+            <li>Detects non‑broadcasting/“dark” drones</li>
+            <li>Higher detection coverage and earlier warning</li>
+            <li>Includes all Remote ID features</li>
+          </ul>
+        </div>
+      </div>
+      <hr>
+      <p><strong>Rule of thumb:</strong> Choose <strong>Node</strong> for general awareness where compliance is expected. Choose <strong>Node Pro</strong> when adversarial or hobbyist non‑compliance is likely.</p>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-connectivity" role="dialog" aria-modal="true" aria-labelledby="modal-connectivity-title" aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-sheet" role="document">
+      <button class="modal-close" data-close aria-label="Close">×</button>
+      <h2 id="modal-connectivity-title">Connectivity: Wired Ethernet vs. FirstNet / Starlink</h2>
+      <div class="modal-grid">
+        <div>
+          <h3>Wired Ethernet</h3>
+          <p>Use existing site Internet for the most stable connection. Recommended for campuses and facilities with IT support.</p>
+          <ul>
+            <li>Lowest latency and highest reliability</li>
+            <li>Works behind most firewalls (outbound HTTPS)</li>
+            <li>Requires cable run and network port</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Wireless options</h3>
+          <p>Pick based on coverage where you install the node.</p>
+          <ul>
+            <li><strong>FirstNet LTE</strong>: Public‑safety priority network. Great where FirstNet signal is strong; easy single‑antenna install.</li>
+            <li><strong>Starlink</strong>: Ideal for rural/open venues with poor LTE. Needs a clear sky view and mounting for the dish.</li>
+          </ul>
+        </div>
+      </div>
+      <hr>
+      <p>Not sure? We can run a quick <em>site connectivity check</em> during scheduling and recommend the best option for each location.</p>
+    </div>
+  </div>
+
+  <!-- MODALS: Compliance & Power -->
+  <div class="modal" id="modal-compliance" role="dialog" aria-modal="true" aria-labelledby="modal-compliance-title" aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-sheet" role="document"> 
+      <button class="modal-close" data-close aria-label="Close">×</button>
+      <h2 id="modal-compliance-title">NDAA Compliance</h2>
+      <div class="modal-grid">
+        <div>
+          <h3>What it means</h3>
+          <p><strong>NDAA-compliant</strong> hardware avoids components restricted by U.S. procurement rules (e.g., 10 U.S.C. § 4872/889). Many federal and state projects require it.</p>
+        </div>
+        <div>
+          <h3>When to choose it</h3>
+          <ul>
+            <li>Purchases using federal grants or agency funds</li>
+            <li>Airports, municipalities, or critical infrastructure with compliance policies</li>
+            <li>You need supplier attestations or materials-origin letters</li>
+          </ul>
+          <p><strong>Non‑NDAA</strong> is fine for private sites without procurement restrictions.</p>
+        </div>
+      </div>
+      <hr>
+      <p>This option adds a one‑time <strong>$2,500</strong> surcharge per device for compliant component selection and documentation.</p>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-power" role="dialog" aria-modal="true" aria-labelledby="modal-power-title" aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-sheet" role="document"> 
+      <button class="modal-close" data-close aria-label="Close">×</button>
+      <h2 id="modal-power-title">Power Options: AC vs Battery + Solar</h2>
+      <div class="modal-grid">
+        <div>
+          <h3>AC Power</h3>
+          <ul>
+            <li>Simplest and lowest ongoing cost</li>
+            <li>Requires nearby outlet or low‑voltage run</li>
+            <li>Ideal for facilities, campuses, and poles with utility power</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Battery + Solar</h3>
+          <ul>
+            <li>Fully off‑grid operation</li>
+            <li>Includes panel, controller, and enclosure sized for your site</li>
+            <li>Recommended when grid power isn’t available</li>
+          </ul>
+          <p>Service adds <strong>$500/yr</strong> per device for maintenance and battery life-cycle.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: How many nodes do I need? -->
+  <div class="modal" id="modal-nodes" role="dialog" aria-modal="true" aria-labelledby="modal-nodes-title" aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-sheet" role="document">
+      <button class="modal-close" data-close aria-label="Close">×</button>
+      <h2 id="modal-nodes-title">How many nodes do I need?</h2>
+      <div class="modal-grid">
+        <div>
+          <h3>Quick guidance</h3>
+          <ul>
+            <li><strong>1–2 nodes</strong> — Home or small neighborhood (≈ <strong>2–6 mi²</strong>)</li>
+            <li><strong>3–5 nodes</strong> — Campus or airport (≈ <strong>6–15 mi²</strong>)</li>
+            <li><strong>5–10 nodes</strong> — Small city (e.g., Gainesville, FL) (≈ <strong>10–30 mi²</strong>)</li>
+            <li><strong>10–20 nodes</strong> — Medium city (e.g., Palm Beach Gardens, FL) (≈ <strong>20–60 mi²</strong>)</li>
+          </ul>
+        </div>
+        <div>
+          <h3>What affects coverage</h3>
+          <ul>
+            <li>Mounting height and clear line‑of‑sight</li>
+            <li>RF noise, buildings, and terrain</li>
+            <li>Connectivity choice (wired/LTE/Starlink) and backhaul placement</li>
+          </ul>
+          <p>Rule of thumb: each node adds about <strong>2–3 mi²</strong> of coverage. We’ll validate during scheduling and can recommend exact counts per site.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Configuration sent. We’ll email you shortly.</div>
+
+  <script>
+    // --------- Pricing helpers ---------
+    const fmt = (n) => new Intl.NumberFormat(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n);
+    const $ = (s,p=document)=>p.querySelector(s); const $$=(s,p=document)=>Array.from(p.querySelectorAll(s));
+
+    const form = $('#orderForm');
+    const quantity = $('#quantity');
+
+    // Coverage assumptions (mi² per node)
+    const COVERAGE_MIN_PER = 2;
+    const COVERAGE_MAX_PER = 3;
+
+    function updateCoverage(q){
+      const min = q * COVERAGE_MIN_PER;
+      const max = q * COVERAGE_MAX_PER;
+      const el = document.getElementById('coverageEst');
+      if(el){ el.innerHTML = `Estimated coverage: <strong>${min}–${max} mi²</strong> <span class="pill">~${COVERAGE_MIN_PER}–${COVERAGE_MAX_PER} mi² per node</span>`; }
+      const minField = document.getElementById('coverage_min_sqmi');
+      const maxField = document.getElementById('coverage_max_sqmi');
+      if(minField) minField.value = min; if(maxField) maxField.value = max;
+    }
+
+    function selected(group){
+      const el = document.querySelector(`#step-${group} .choice input:checked`).closest('.choice');
+      const name = el.querySelector('.title').textContent.trim();
+      const annual = Number(el.dataset.annual||0);
+      const upfront = Number(el.dataset.upfront||0);
+      const key = el.dataset.key;
+      return {key,name,annual,upfront};
+    }
+
+    function recalc(){
+      const q = Math.max(1, Number(quantity.value||1));
+      updateCoverage(q);
+      const tier = selected('tier');
+      const comp = selected('compliance');
+      const net  = selected('connectivity');
+      const pwr  = selected('power');
+
+      const upfront = q * (comp.upfront);
+      const annual = q * (tier.annual + net.annual + pwr.annual);
+
+      // Summary header
+      $('#sumTitle').textContent = `${tier.name} ×${q}`;
+
+      // Line items
+      const items = [];
+      items.push({label: `${tier.name}`, right: fmt(tier.annual) + '/yr' + (q>1?` ×${q}`:'')});
+      items.push({label: `Compliance: ${comp.name}`, right: (comp.upfront? ('+'+fmt(comp.upfront)+' one‑time') : '$0') + (q>1?` ×${q}`:'')});
+      items.push({label: `Connectivity: ${net.name}`, right: (net.annual? ('+'+fmt(net.annual)+'/yr'): '$0') + (q>1?` ×${q}`:'')});
+      items.push({label: `Power: ${pwr.name}`, right: (pwr.annual? ('+'+fmt(pwr.annual)+'/yr'): '$0') + (q>1?` ×${q}`:'')});
+
+      const sumEl = $('#sumItems');
+      sumEl.innerHTML = items.map(i=>`<div class="sum-item"><span>${i.label}</span><span class="sum-muted">${i.right}</span></div>`).join('');
+
+      $('#sumUpfront').textContent = fmt(upfront);
+      $('#sumAnnual').textContent  = fmt(annual) + '/yr';
+
+      // Save to hidden fields for Formspree
+      $('#computed_upfront').value = upfront;
+      $('#computed_annual').value = annual;
+
+      const order = { quantity:q, tier, compliance:comp, connectivity:net, power:pwr, totals:{upfront, annual} };
+      order.coverage = { per_node_min:COVERAGE_MIN_PER, per_node_max:COVERAGE_MAX_PER, total_min:q*COVERAGE_MIN_PER, total_max:q*COVERAGE_MAX_PER, unit:'mi^2' };
+      $('#order_json').value = JSON.stringify(order, null, 2);
+    }
+
+    // Selection UI highlight
+    function wireGroup(id){
+      $(`#${id}`).querySelectorAll('.choice input').forEach(input=>{
+        input.addEventListener('change',()=>{
+          $(`#${id}`).querySelectorAll('.choice').forEach(c=>c.classList.toggle('selected', c.querySelector('input').checked));
+          recalc();
+        });
+      });
+    }
+    ['step-tier','step-compliance','step-connectivity','step-power'].forEach(wireGroup);
+
+    // qty controls
+    $('#minusQty').addEventListener('click',()=>{quantity.value=Math.max(1,Number(quantity.value||1)-1);recalc();});
+    $('#plusQty').addEventListener('click',()=>{quantity.value=Math.max(1,Number(quantity.value||1)+1);recalc();});
+    quantity.addEventListener('input',recalc);
+
+    // initial
+    recalc();
+
+    // Submit via Fetch to keep user on page; fall back to normal form POST on error
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      recalc();
+      const endpoint = form.getAttribute('action');
+      const data = new FormData(form);
+      try{
+        const res = await fetch(endpoint,{ method:'POST', body:data, headers:{ 'Accept':'application/json' }});
+        if(res.ok){
+          form.reset();
+          // restore defaults
+          document.querySelector('#step-tier input[value="Node (remoteID only)"]').checked = true;
+          document.querySelector('#step-compliance input[value="Non‑NDAA Compliant"]').checked = true;
+          document.querySelector('#step-connectivity input[value="No Internet"]').checked = true;
+          document.querySelector('#step-power input[value="AC Power Supply"]').checked = true;
+          ['step-tier','step-compliance','step-connectivity','step-power'].forEach(id=>{
+            $(`#${id}`).querySelectorAll('.choice').forEach(c=>c.classList.remove('selected'));
+            $(`#${id}`).querySelectorAll('.choice input:checked').forEach(i=>i.closest('.choice').classList.add('selected'));
+          });
+          quantity.value = 1; recalc();
+          const toast = $('#toast'); toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'), 4500);
+          window.scrollTo({top:0,behavior:'smooth'});
+          return;
+        }
+        form.submit();
+      }catch(err){ form.submit(); }
+    });
+    // Modal JS
+    function bindModals(){
+      document.querySelectorAll('[data-modal-target]').forEach(btn=>{
+        btn.addEventListener('click',()=>openModal(btn.getAttribute('data-modal-target')));
+      });
+      document.querySelectorAll('[data-close]').forEach(el=>{
+        el.addEventListener('click',()=>closeModal(el.closest('.modal').id));
+      });
+      window.addEventListener('keydown',(e)=>{
+        if(e.key==='Escape') document.querySelectorAll('.modal.open').forEach(m=>closeModal(m.id));
+      });
+    }
+    function openModal(id){
+      const m=document.getElementById(id); if(!m) return; m.classList.add('open'); document.body.style.overflow='hidden';
+      const focusable=m.querySelector('.modal-close'); if(focusable) focusable.focus();
+    }
+    function closeModal(id){
+      const m=document.getElementById(id); if(!m) return; m.classList.remove('open'); document.body.style.overflow='';
+    }
+    bindModals();
+  </script>
+</body>
+</html>
