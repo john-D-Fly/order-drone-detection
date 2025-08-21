@@ -95,6 +95,13 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
 .coverage{margin:8px 0 0;color:var(--muted);font-size:.93rem}
 .coverage strong{color:var(--text)}
 .coverage .pill{display:inline-block;padding:3px 8px;border:1px solid #2a2a2d;border-radius:999px;margin-left:6px;font-size:.82rem}
+.hero{display:flex;gap:16px;align-items:flex-end;margin:8px 0 14px}
+.hero-figure{flex:1;border:1px solid #1f1f21;border-radius:18px;overflow:hidden;box-shadow:var(--shadow);background:radial-gradient(600px 300px at 20% -40%, #1a1a1a, #0f0f10)}
+.hero-figure img{display:block;width:100%;height:auto}
+.hero-actions{min-width:140px}
+.hero-actions a.hero-gallery{display:inline-flex;align-items:center;gap:6px;color:var(--accent);font-weight:600;margin-top:8px}
+.hero-actions a.hero-gallery .circ{width:20px;height:20px;border:1px solid #2a2a2d;border-radius:999px;display:grid;place-items:center}
+@media(max-width:900px){.hero{flex-direction:column;align-items:stretch}.hero-actions{min-width:unset}}
 </style>
 </head>
 <body>
@@ -111,7 +118,15 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
       <section class="panel" aria-labelledby="title">
         <div class="inner">
           <h1 id="title">Order Drone Detection</h1>
-          <p class="subtitle">Customize your Decentrafly deployment. Submit your configuration and we’ll follow up with scheduling — no payment collected here.</p>
+          <p class="subtitle">$1</p>
+          <div class="hero">
+            <figure class="hero-figure">
+              <img src="Decentrafly-node.jpg" alt="Decentrafly detection node" />
+            </figure>
+            <div class="hero-actions">
+              <a href="#" class="hero-gallery" data-modal-target="modal-gallery"><span>View gallery</span> <span class="circ">＋</span></a>
+            </div>
+          </div>
           <ul class="specs">
             <li><div>Criminal Justice Information System (CJIS) compliant to securely store evidentiary detection data.</div></li>
             <li><div>Patented data tokenization enables end‑to‑end privacy for node operators.</div></li>
@@ -260,8 +275,9 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
                 <label for="notes">Notes (site access, dates, RF constraints, etc.)</label>
                 <textarea id="notes" name="notes" placeholder="Tell us anything that helps us schedule + configure."></textarea>
               </div>
-              <div class="full">
-                <label><input type="checkbox" required name="agree" /> I agree to be contacted about this order and accept the Terms.</label>
+              $1
+              <div class=\"full\"> 
+                <label><input type=\"checkbox\" name=\"preorder_ack\" /> purchase not required to submit pre-order form, no financial obligation.</label>
               </div>
             </div>
           </div>
@@ -286,7 +302,7 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
         <div class="sum-items" id="sumItems"></div>
         <div class="sum-items">
           <div class="sum-total">
-            <div class="sum-row"><span>Due today</span><span id="sumUpfront">$0</span></div>
+            <div class="sum-row"><span>Due upon Delivery</span><span id="sumUpfront">$0</span></div>
             <div class="sum-row"><span>Annual</span><span id="sumAnnual">$2000/yr</span></div>
           </div>
           <p class="legal">Totals shown exclude taxes. One‑time NDAA surcharge applies if selected.</p>
@@ -434,6 +450,17 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
           <p>Rule of thumb: each node adds about <strong>2–3 mi²</strong> of coverage. We’ll validate during scheduling and can recommend exact counts per site.</p>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Gallery -->
+  <div class="modal" id="modal-gallery" role="dialog" aria-modal="true" aria-labelledby="modal-gallery-title" aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-sheet" role="document">
+      <button class="modal-close" data-close aria-label="Close">×</button>
+      <h2 id="modal-gallery-title">Decentrafly Node</h2>
+      <img src="Decentrafly-node.jpg" alt="Decentrafly detection node close-up" style="width:100%;height:auto;border-radius:14px" />
+      <p style="color:#333;margin-top:12px">Industrial, weatherproof enclosure with secure mounting and QR provisioning.</p>
     </div>
   </div>
 
