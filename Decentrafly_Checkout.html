@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Decentrafly — Order Drone Detection</title>
-  <meta name="description" content="Apple.com‑style checkout for Decentrafly drone detection. Static, GitHub Pages ready. Submits to Formspree." />
+  <meta name="description" content="Clean checkout for Decentrafly drone detection. Static, GitHub Pages ready. Submits to Formspree." />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <style>
     :root{
@@ -27,7 +27,14 @@
     .specs li:last-child{border-bottom:none}
     .specs li::before{content:"";width:6px;height:6px;border-radius:50%;background:#3a7bff;margin-top:9px;flex:0 0 6px;box-shadow:0 0 8px rgba(58,123,255,.6)}
     .grid{display:grid;grid-template-columns: 1.4fr .9fr; gap:22px}
-    @media (max-width: 960px){.grid{grid-template-columns:1fr}}
+    @media (max-width: 960px){.grid{grid-template-columns:1fr}
+    /* Float summary as a bottom sheet on mobile */
+    .summary{position:fixed;left:12px;right:12px;bottom:12px;top:auto;z-index:30;max-height:unset}
+    .container{padding-bottom:180px}
+    /* Hide detailed line items to keep it compact on small screens */
+    .summary #sumItems{display:none}
+    .sum-head{padding:12px 14px}
+  }
     .panel{background:linear-gradient(180deg, var(--card), var(--elev));border:1px solid #1f1f21;border-radius:var(--radius);box-shadow:var(--shadow)}
     .panel .inner{padding:22px 22px}
     .step{border-top:1px solid #1f1f21}
@@ -49,7 +56,7 @@
     label{display:block;font-size:.95rem;margin-bottom:6px;color:var(--muted)}
     input,select,textarea{width:100%;border:1px solid #2a2a2d;background:#121214;border-radius:12px;padding:12px 14px;color:var(--text)}
     textarea{min-height:96px;resize:vertical}
-    .summary{position:sticky;top:76px}
+    .summary{position:sticky;top:76px;max-height:calc(100vh - 96px);overflow:auto}
     .sum-head{display:flex;align-items:center;justify-content:space-between;padding:16px 16px;border-bottom:1px solid #1f1f21}
     .sum-items{padding:16px}
     .sum-item{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed #2a2a2d}
@@ -136,7 +143,7 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
           </ul>
         </div>
 
-        <form id="orderForm" class="inner" action="https://formspree.io/f/your_form_id" method="POST" novalidate>
+        <form id="orderForm" class="inner" action="https://formspree.io/f/myzprdbb" method="POST" novalidate>
           <!-- Hidden fields populated before submit -->
           <input type="hidden" name="order_json" id="order_json" />
           <input type="hidden" name="computed_upfront" id="computed_upfront" />
@@ -149,15 +156,15 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
             <h3>Tier. Choose your detection level</h3>
             <button type="button" class="help-link" data-modal-target="modal-tier"><span>Not sure which level of detection you need? Click to learn more.</span> <span class="circ">i</span></button>
             <div class="choices" role="radiogroup" aria-labelledby="step-tier">
-              <label class="choice selected" data-key="node" data-annual="2000">
+              <label class="choice selected" data-key="node" data-annual="1000">
                 <input type="radio" name="tier" value="Node (remoteID only)" checked>
                 <div class="title">Node (remoteID only)</div>
-                <div class="price">$2000 / yr per device</div>
+                <div class="price">$1000 / yr per device</div>
               </label>
-              <label class="choice" data-key="nodepro" data-annual="4000">
+              <label class="choice" data-key="nodepro" data-annual="2500">
                 <input type="radio" name="tier" value="Node Pro (uncooperative detection)">
                 <div class="title">Node Pro (uncooperative detection)</div>
-                <div class="price">$4000 / yr per device</div>
+                <div class="price">$2500 / yr per device</div>
               </label>
             </div>
 
@@ -181,7 +188,7 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
               <label class="choice selected" data-key="non" data-upfront="0">
                 <input type="radio" name="compliance" value="Non‑NDAA Compliant" checked>
                 <div class="title">Non‑NDAA Compliant</div>
-                <div class="price">$0 one‑time</div>
+                <div class="price">Included</div>
               </label>
               <label class="choice" data-key="ndaa" data-upfront="2500">
                 <input type="radio" name="compliance" value="NDAA Compliant">
@@ -199,17 +206,11 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
               <label class="choice selected" data-key="none" data-annual="0">
                 <input type="radio" name="connectivity" value="No Internet" checked>
                 <div class="title">Customer Supplied Internet</div>
-                <div class="price">$0 / yr</div>
+                <div class="price">Included</div>
               </label>
-              <label class="choice" data-key="firstnet" data-annual="500">
-                <input type="radio" name="connectivity" value="FirstNet LTE">
-                <div class="title">FirstNet LTE</div>
-                <div class="price">+$500 / yr</div>
+              $1+$750 / yr$2
               </label>
-              <label class="choice" data-key="starlink" data-annual="750">
-                <input type="radio" name="connectivity" value="Starlink">
-                <div class="title">Starlink</div>
-                <div class="price">+$750 / yr</div>
+              $1+$1000 / yr$2
               </label>
             </div>
 
@@ -225,9 +226,12 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
               <label class="choice selected" data-key="ac" data-annual="0">
                 <input type="radio" name="power" value="AC Power Supply" checked>
                 <div class="title">AC Power Supply</div>
-                <div class="price">$0 / yr</div>
+                <div class="price">Included</div>
               </label>
-              $11000$2$1000 / yr</div>
+              <label class="choice" data-key="solar" data-annual="1000">
+                <input type="radio" name="power" value="Battery + Solar">
+                <div class="title">Battery + Solar</div>
+                <div class="price">+$1000 / yr</div>
               </label>
             </div>
           </div>
@@ -303,7 +307,7 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
         <div class="sum-items">
           <div class="sum-total">
             <div class="sum-row"><span>Due upon Delivery</span><span id="sumUpfront">$0</span></div>
-            <div class="sum-row"><span>Annual</span><span id="sumAnnual">$2000/yr</span></div>
+            <div class="sum-row"><span>Annual</span><span id="sumAnnual">$1000/yr</span></div>
           </div>
           <p class="legal">Totals shown exclude taxes. One‑time NDAA surcharge applies if selected.</p>
         </div>
@@ -514,9 +518,9 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
       // Line items
       const items = [];
       items.push({label: `${tier.name}`, right: fmt(tier.annual) + '/yr' + (q>1?` ×${q}`:'')});
-      items.push({label: `Compliance: ${comp.name}`, right: (comp.upfront? ('+'+fmt(comp.upfront)+' one‑time') : '$0') + (q>1?` ×${q}`:'')});
-      items.push({label: `Connectivity: ${net.name}`, right: (net.annual? ('+'+fmt(net.annual)+'/yr'): '$0') + (q>1?` ×${q}`:'')});
-      items.push({label: `Power: ${pwr.name}`, right: (pwr.annual? ('+'+fmt(pwr.annual)+'/yr'): '$0') + (q>1?` ×${q}`:'')});
+      items.push({label: `Compliance: ${comp.name}`, right: (comp.upfront? ('+'+fmt(comp.upfront)+' one‑time') : 'Included') + (q>1?` ×${q}`:'')});
+      items.push({label: `Connectivity: ${net.name}`, right: (net.annual? ('+'+fmt(net.annual)+'/yr'): 'Included') + (q>1?` ×${q}`:'')});
+      items.push({label: `Power: ${pwr.name}`, right: (pwr.annual? ('+'+fmt(pwr.annual)+'/yr'): 'Included') + (q>1?` ×${q}`:'')});
 
       const sumEl = $('#sumItems');
       sumEl.innerHTML = items.map(i=>`<div class="sum-item"><span>${i.label}</span><span class="sum-muted">${i.right}</span></div>`).join('');
@@ -535,9 +539,11 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
 
     // Selection UI highlight
     function wireGroup(id){
-      $(`#${id}`).querySelectorAll('.choice input').forEach(input=>{
+      const container = document.getElementById(id);
+      if(!container) return; // graceful if a section is missing
+      container.querySelectorAll('.choice input').forEach(input=>{
         input.addEventListener('change',()=>{
-          $(`#${id}`).querySelectorAll('.choice').forEach(c=>c.classList.toggle('selected', c.querySelector('input').checked));
+          container.querySelectorAll('.choice').forEach(c=>c.classList.toggle('selected', c.querySelector('input').checked));
           recalc();
         });
       });
