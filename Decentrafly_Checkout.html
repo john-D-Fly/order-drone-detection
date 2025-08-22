@@ -4,12 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Decentrafly — Order Drone Detection</title>
-  <meta name="description" content="Clean checkout for Decentrafly drone detection. Static, GitHub Pages ready. Submits to Formspree." />
+  <meta name="description" content="Apple.com‑style checkout for Decentrafly drone detection. Static, GitHub Pages ready. Submits to Formspree." />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <style>
-    :root{
-      --bg:#0a0a0a;--card:#111;--elev:#161616;--text:#f5f5f7;--muted:#a1a1a6;--accent:#2997ff;--success:#34c759;--danger:#ff3b30;--ring:0 0 0 2px rgba(41,151,255,.4);--shadow:0 10px 30px rgba(0,0,0,.35);--radius:22px
-    }
+    :root{ --bg:#0a0a0a;--card:#111;--elev:#161616;--text:#f5f5f7;--muted:#a1a1a6;--accent:#2997ff;--success:#34c759;--danger:#ff3b30;--ring:0 0 0 2px rgba(41,151,255,.4);--shadow:0 10px 30px rgba(0,0,0,.35);--radius:22px }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{margin:0;background:radial-gradient(1200px 800px at 20% -10%, #1a1a1a 0%, var(--bg) 60%),linear-gradient(180deg, #0b0b0c, #050505);color:var(--text);font:16px/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased;letter-spacing:.01em}
@@ -27,14 +25,15 @@
     .specs li:last-child{border-bottom:none}
     .specs li::before{content:"";width:6px;height:6px;border-radius:50%;background:#3a7bff;margin-top:9px;flex:0 0 6px;box-shadow:0 0 8px rgba(58,123,255,.6)}
     .grid{display:grid;grid-template-columns: 1.4fr .9fr; gap:22px}
-    @media (max-width: 960px){.grid{grid-template-columns:1fr}
-    /* Float summary as a bottom sheet on mobile */
-    .summary{position:fixed;left:12px;right:12px;bottom:12px;top:auto;z-index:30;max-height:unset}
-    .container{padding-bottom:180px}
-    /* Hide detailed line items to keep it compact on small screens */
-    .summary #sumItems{display:none}
-    .sum-head{padding:12px 14px}
-  }
+    @media (max-width: 960px){
+      .grid{grid-template-columns:1fr}
+      /* Float summary as a bottom sheet on mobile */
+      .summary{position:fixed;left:12px;right:12px;bottom:12px;top:auto;z-index:30;max-height:unset}
+      .container{padding-bottom:180px}
+      /* Hide detailed line items to keep it compact on small screens */
+      .summary #sumItems{display:none}
+      .sum-head{padding:12px 14px}
+    }
     .panel{background:linear-gradient(180deg, var(--card), var(--elev));border:1px solid #1f1f21;border-radius:var(--radius);box-shadow:var(--shadow)}
     .panel .inner{padding:22px 22px}
     .step{border-top:1px solid #1f1f21}
@@ -72,44 +71,32 @@
     .badge{font-size:.75rem;padding:4px 8px;border-radius:999px;border:1px solid #2a2a2d;color:var(--muted)}
     .toast{position:fixed;inset:auto 16px 16px auto;z-index:50;background:#0f2016;color:#d8ffe3;border:1px solid #1a3f2c;border-radius:14px;padding:12px 14px;box-shadow:0 10px 30px rgba(0,0,0,.4);display:none}
     .toast.show{display:block}
-  .help-card{display:grid;grid-template-columns:120px 1fr 28px;gap:14px;align-items:center;background:#141415;border:1px solid #2a2a2d;border-radius:16px;padding:12px;margin-top:12px}
-.help-thumb{width:100%;aspect-ratio:16/9;border-radius:12px;background:linear-gradient(135deg,#202024,#0f0f11);display:grid;place-items:center;font-size:.8rem;color:var(--muted)}
-.help-title{font-weight:700}
-.help-text{color:var(--muted);font-size:.95rem}
-.help-plus{justify-self:end;width:28px;height:28px;border:1px solid #2a2a2d;border-radius:999px;display:grid;place-items:center;color:var(--muted);font-weight:700}
-.help-card{border:1px solid #2a2a2d;border-radius:16px;background:#141415;margin-top:12px;overflow:hidden}
-.help-card:not(details){display:none!important}
-details.help-card summary{display:grid;grid-template-columns:120px 1fr 28px;gap:14px;align-items:center;padding:12px;list-style:none;cursor:pointer}
-details.help-card summary::-webkit-details-marker{display:none}
-.help-thumb{width:100%;aspect-ratio:16/9;border-radius:12px;background:linear-gradient(135deg,#202024,#0f0f11);display:grid;place-items:center;font-size:.8rem;color:var(--muted)}
-.help-title{font-weight:700}
-.help-text{color:var(--muted);font-size:.95rem}
-.help-plus{justify-self:end;width:28px;height:28px;border:1px solid #2a2a2d;border-radius:999px;display:grid;place-items:center;color:var(--muted);font-weight:700;transition:transform .2s ease}
-.help-more{padding:12px;border-top:1px solid #2a2a2d;color:var(--muted);background:#121214}
-details.help-card[open] .help-plus{transform:rotate(90deg)}
-.help-link{display:inline-flex;align-items:center;gap:8px;margin:2px 0 10px;color:var(--accent);font-weight:600}
-.help-link .circ{width:20px;height:20px;border:1px solid #2a2a2d;border-radius:999px;display:grid;place-items:center}
-/* Modal overlay */
-.modal{position:fixed;inset:0;z-index:60;display:none}
-.modal.open{display:block}
-.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(2px)}
-.modal-sheet{position:relative;margin:6vh auto;max-width:900px;max-height:88vh;overflow:auto;background:#fff;color:#111;border-radius:22px;padding:28px 28px 32px;box-shadow:0 30px 80px rgba(0,0,0,.55)}
-.modal-close{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:999px;border:1px solid #d0d0d0;background:#fff;color:#111;font-size:22px;cursor:pointer}
-.modal-sheet h2{font-size:clamp(24px,3vw,36px);margin:6px 0 12px}
-.modal-sheet p{color:#333;line-height:1.6}
-.modal-grid{display:grid;grid-template-columns:1fr;gap:18px}
-@media(min-width:860px){.modal-grid{grid-template-columns:1fr 1fr}}
-.coverage{margin:8px 0 0;color:var(--muted);font-size:.93rem}
-.coverage strong{color:var(--text)}
-.coverage .pill{display:inline-block;padding:3px 8px;border:1px solid #2a2a2d;border-radius:999px;margin-left:6px;font-size:.82rem}
-.hero{display:flex;gap:16px;align-items:flex-end;margin:8px 0 14px}
-.hero-figure{flex:1;border:1px solid #1f1f21;border-radius:18px;overflow:hidden;box-shadow:var(--shadow);background:radial-gradient(600px 300px at 20% -40%, #1a1a1a, #0f0f10)}
-.hero-figure img{display:block;width:100%;height:auto}
-.hero-actions{min-width:140px}
-.hero-actions a.hero-gallery{display:inline-flex;align-items:center;gap:6px;color:var(--accent);font-weight:600;margin-top:8px}
-.hero-actions a.hero-gallery .circ{width:20px;height:20px;border:1px solid #2a2a2d;border-radius:999px;display:grid;place-items:center}
-@media(max-width:900px){.hero{flex-direction:column;align-items:stretch}.hero-actions{min-width:unset}}
-</style>
+
+    /* Help link + modal */
+    .help-link{display:inline-flex;align-items:center;gap:8px;margin:2px 0 10px;color:var(--accent);font-weight:600}
+    .help-link .circ{width:20px;height:20px;border:1px solid #2a2a2d;border-radius:999px;display:grid;place-items:center}
+    .modal{position:fixed;inset:0;z-index:60;display:none}
+    .modal.open{display:block}
+    .modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(2px)}
+    .modal-sheet{position:relative;margin:6vh auto;max-width:900px;max-height:88vh;overflow:auto;background:#fff;color:#111;border-radius:22px;padding:28px 28px 32px;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+    .modal-close{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:999px;border:1px solid #d0d0d0;background:#fff;color:#111;font-size:22px;cursor:pointer}
+    .modal-sheet h2{font-size:clamp(24px,3vw,36px);margin:6px 0 12px}
+    .modal-sheet p{color:#333;line-height:1.6}
+    .modal-grid{display:grid;grid-template-columns:1fr;gap:18px}
+    @media(min-width:860px){.modal-grid{grid-template-columns:1fr 1fr}}
+
+    /* Coverage + hero */
+    .coverage{margin:8px 0 0;color:var(--muted);font-size:.93rem}
+    .coverage strong{color:var(--text)}
+    .coverage .pill{display:inline-block;padding:3px 8px;border:1px solid #2a2a2d;border-radius:999px;margin-left:6px;font-size:.82rem}
+    .hero{display:flex;gap:16px;align-items:flex-end;margin:8px 0 14px}
+    .hero-figure{flex:1;border:1px solid #1f1f21;border-radius:18px;overflow:hidden;box-shadow:var(--shadow);background:radial-gradient(600px 300px at 20% -40%, #1a1a1a, #0f0f10)}
+    .hero-figure img{display:block;width:100%;height:auto}
+    .hero-actions{min-width:140px}
+    .hero-actions a.hero-gallery{display:inline-flex;align-items:center;gap:6px;color:var(--accent);font-weight:600;margin-top:8px}
+    .hero-actions a.hero-gallery .circ{width:20px;height:20px;border:1px solid #2a2a2d;border-radius:999px;display:grid;place-items:center}
+    @media(max-width:900px){.hero{flex-direction:column;align-items:stretch}.hero-actions{min-width:unset}}
+  </style>
 </head>
 <body>
   <div class="container">
@@ -168,9 +155,6 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
               </label>
             </div>
 
-            <!-- HELP: Tier (separate) -->
-            
-
             <div style="margin-top:12px" class="qty" aria-label="Quantity">
               <button type="button" id="minusQty" aria-label="Decrease quantity">–</button>
               <input id="quantity" name="quantity" type="number" min="1" step="1" value="1" inputmode="numeric" />
@@ -208,14 +192,17 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
                 <div class="title">Customer Supplied Internet</div>
                 <div class="price">Included</div>
               </label>
-              $1+$750 / yr$2
+              <label class="choice" data-key="firstnet" data-annual="750">
+                <input type="radio" name="connectivity" value="FirstNet LTE">
+                <div class="title">FirstNet LTE</div>
+                <div class="price">+$750 / yr</div>
               </label>
-              $1+$1000 / yr$2
+              <label class="choice" data-key="starlink" data-annual="1000">
+                <input type="radio" name="connectivity" value="Starlink">
+                <div class="title">Starlink</div>
+                <div class="price">+$1000 / yr</div>
               </label>
             </div>
-
-            <!-- HELP: Connectivity (separate) -->
-            
           </div>
 
           <!-- STEP 4: Power -->
@@ -301,7 +288,7 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
             <div style="font-weight:700">Order Summary</div>
             <div class="sum-muted" id="sumTitle">Node (remoteID only) ×1</div>
           </div>
-          <div class="sum-muted">v1.1</div>
+          <div class="sum-muted">v1.2</div>
         </div>
         <div class="sum-items" id="sumItems"></div>
         <div class="sum-items">
@@ -471,10 +458,11 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
   <div class="toast" id="toast" role="status" aria-live="polite">Configuration sent. We’ll email you shortly.</div>
 
   <script>
-    // --------- Pricing helpers ---------
+    // --------- Small utilities ---------
     const fmt = (n) => new Intl.NumberFormat(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n);
     const $ = (s,p=document)=>p.querySelector(s); const $$=(s,p=document)=>Array.from(p.querySelectorAll(s));
 
+    // Cache important nodes
     const form = $('#orderForm');
     const quantity = $('#quantity');
 
@@ -485,24 +473,28 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
     function updateCoverage(q){
       const min = q * COVERAGE_MIN_PER;
       const max = q * COVERAGE_MAX_PER;
-      const el = document.getElementById('coverageEst');
+      const el = $('#coverageEst');
       if(el){ el.innerHTML = `Estimated coverage: <strong>${min}–${max} mi²</strong> <span class="pill">~${COVERAGE_MIN_PER}–${COVERAGE_MAX_PER} mi² per node</span>`; }
-      const minField = document.getElementById('coverage_min_sqmi');
-      const maxField = document.getElementById('coverage_max_sqmi');
-      if(minField) minField.value = min; if(maxField) maxField.value = max;
+      var _cm = $('#coverage_min_sqmi'); if(_cm) _cm.value = min;
+      var _cM = $('#coverage_max_sqmi'); if(_cM) _cM.value = max;
     }
 
     function selected(group){
-      const el = document.querySelector(`#step-${group} .choice input:checked`).closest('.choice');
-      const name = el.querySelector('.title').textContent.trim();
-      const annual = Number(el.dataset.annual||0);
-      const upfront = Number(el.dataset.upfront||0);
-      const key = el.dataset.key;
-      return {key,name,annual,upfront};
+      const step = document.getElementById('step-' + group);
+      if(!step){ return { key: group, name: 'N/A', annual: 0, upfront: 0 }; }
+      // Prefer a checked input; otherwise default the first option to checked
+      let input = step.querySelector('.choice input:checked');
+      if(!input){ input = step.querySelector('.choice input'); if(input) input.checked = true; }
+      const choice = input ? input.closest('.choice') : null;
+      const name = choice && choice.querySelector('.title') ? choice.querySelector('.title').textContent.trim() : 'N/A';
+      const annual = choice ? Number(choice.dataset.annual || 0) : 0;
+      const upfront = choice ? Number(choice.dataset.upfront || 0) : 0;
+      const key = choice ? (choice.dataset.key || group) : group;
+      return { key, name, annual, upfront };
     }
 
     function recalc(){
-      const q = Math.max(1, Number(quantity.value||1));
+      const q = Math.max(1, Number((quantity && quantity.value) ? quantity.value : 1));
       updateCoverage(q);
       const tier = selected('tier');
       const comp = selected('compliance');
@@ -513,7 +505,7 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
       const annual = q * (tier.annual + net.annual + pwr.annual);
 
       // Summary header
-      $('#sumTitle').textContent = `${tier.name} ×${q}`;
+      $('#sumTitle') && ($('#sumTitle').textContent = `${tier.name} ×${q}`);
 
       // Line items
       const items = [];
@@ -523,88 +515,160 @@ details.help-card[open] .help-plus{transform:rotate(90deg)}
       items.push({label: `Power: ${pwr.name}`, right: (pwr.annual? ('+'+fmt(pwr.annual)+'/yr'): 'Included') + (q>1?` ×${q}`:'')});
 
       const sumEl = $('#sumItems');
-      sumEl.innerHTML = items.map(i=>`<div class="sum-item"><span>${i.label}</span><span class="sum-muted">${i.right}</span></div>`).join('');
+      if(sumEl){ sumEl.innerHTML = items.map(i=>`<div class="sum-item"><span>${i.label}</span><span class="sum-muted">${i.right}</span></div>`).join(''); }
 
-      $('#sumUpfront').textContent = fmt(upfront);
-      $('#sumAnnual').textContent  = fmt(annual) + '/yr';
+      $('#sumUpfront') && ($('#sumUpfront').textContent = fmt(upfront));
+      $('#sumAnnual')  && ($('#sumAnnual').textContent  = fmt(annual) + '/yr');
 
       // Save to hidden fields for Formspree
-      $('#computed_upfront').value = upfront;
-      $('#computed_annual').value = annual;
+      $('#computed_upfront') && ($('#computed_upfront').value = upfront);
+      $('#computed_annual') && ($('#computed_annual').value = annual);
 
       const order = { quantity:q, tier, compliance:comp, connectivity:net, power:pwr, totals:{upfront, annual} };
       order.coverage = { per_node_min:COVERAGE_MIN_PER, per_node_max:COVERAGE_MAX_PER, total_min:q*COVERAGE_MIN_PER, total_max:q*COVERAGE_MAX_PER, unit:'mi^2' };
-      $('#order_json').value = JSON.stringify(order, null, 2);
+      $('#order_json') && ($('#order_json').value = JSON.stringify(order, null, 2));
     }
 
-    // Selection UI highlight
+    // Selection UI highlight + click-to-select
     function wireGroup(id){
       const container = document.getElementById(id);
       if(!container) return; // graceful if a section is missing
+      // Change listener to update highlight + totals
       container.querySelectorAll('.choice input').forEach(input=>{
         input.addEventListener('change',()=>{
-          container.querySelectorAll('.choice').forEach(c=>c.classList.toggle('selected', c.querySelector('input').checked));
+          container.querySelectorAll('.choice').forEach(c=>{
+            const i = c.querySelector('input');
+            c.classList.toggle('selected', !!(i && i.checked));
+          });
           recalc();
         });
       });
+      // Click anywhere on the tile selects its input
+      container.querySelectorAll('.choice').forEach(choice=>{
+        choice.addEventListener('click', (e)=>{
+          // Avoid clicks on links inside tiles (none currently)
+          if(e.target.closest('a')) return;
+          const inp = choice.querySelector('input');
+          if(inp && !inp.checked){ inp.checked = true; inp.dispatchEvent(new Event('change',{bubbles:true})); }
+        });
+      });
     }
-    ['step-tier','step-compliance','step-connectivity','step-power'].forEach(wireGroup);
 
-    // qty controls
-    $('#minusQty').addEventListener('click',()=>{quantity.value=Math.max(1,Number(quantity.value||1)-1);recalc();});
-    $('#plusQty').addEventListener('click',()=>{quantity.value=Math.max(1,Number(quantity.value||1)+1);recalc();});
-    quantity.addEventListener('input',recalc);
+    function ensureDefault(group){
+      const step = document.getElementById('step-' + group);
+      if(!step) return;
+      let checked = step.querySelector('.choice input:checked');
+      if(!checked){
+        const first = step.querySelector('.choice input');
+        if(first){ first.checked = true; const ch = first.closest('.choice'); if(ch) ch.classList.add('selected'); }
+      }
+    }
 
-    // initial
-    recalc();
-
-    // Submit via Fetch to keep user on page; fall back to normal form POST on error
-    form.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      recalc();
-      const endpoint = form.getAttribute('action');
-      const data = new FormData(form);
-      try{
-        const res = await fetch(endpoint,{ method:'POST', body:data, headers:{ 'Accept':'application/json' }});
-        if(res.ok){
-          form.reset();
-          // restore defaults
-          document.querySelector('#step-tier input[value="Node (remoteID only)"]').checked = true;
-          document.querySelector('#step-compliance input[value="Non‑NDAA Compliant"]').checked = true;
-          document.querySelector('#step-connectivity input[value="No Internet"]').checked = true;
-          document.querySelector('#step-power input[value="AC Power Supply"]').checked = true;
-          ['step-tier','step-compliance','step-connectivity','step-power'].forEach(id=>{
-            $(`#${id}`).querySelectorAll('.choice').forEach(c=>c.classList.remove('selected'));
-            $(`#${id}`).querySelectorAll('.choice input:checked').forEach(i=>i.closest('.choice').classList.add('selected'));
-          });
-          quantity.value = 1; recalc();
-          const toast = $('#toast'); toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'), 4500);
-          window.scrollTo({top:0,behavior:'smooth'});
-          return;
-        }
-        form.submit();
-      }catch(err){ form.submit(); }
-    });
     // Modal JS
     function bindModals(){
-      document.querySelectorAll('[data-modal-target]').forEach(btn=>{
-        btn.addEventListener('click',()=>openModal(btn.getAttribute('data-modal-target')));
+      // Open
+      document.querySelectorAll('[data-modal-target]').forEach(function(btn){
+        btn.addEventListener('click', function(e){
+          e.preventDefault();
+          openModal(btn.getAttribute('data-modal-target'));
+        });
       });
-      document.querySelectorAll('[data-close]').forEach(el=>{
-        el.addEventListener('click',()=>closeModal(el.closest('.modal').id));
+      // Close buttons
+      document.querySelectorAll('[data-close]').forEach(function(el){
+        el.addEventListener('click', function(){
+          var m = el.closest('.modal');
+          closeModal(m ? m.id : null);
+        });
       });
-      window.addEventListener('keydown',(e)=>{
-        if(e.key==='Escape') document.querySelectorAll('.modal.open').forEach(m=>closeModal(m.id));
+      // Backdrop click close
+      document.querySelectorAll('.modal-backdrop').forEach(function(el){
+        el.addEventListener('click', function(){
+          var m = el.closest('.modal');
+          closeModal(m ? m.id : null);
+        });
+      });
+      // Escape key
+      window.addEventListener('keydown', function(e){
+        if(e.key==='Escape'){
+          document.querySelectorAll('.modal.open').forEach(function(m){ closeModal(m.id); });
+        }
       });
     }
     function openModal(id){
-      const m=document.getElementById(id); if(!m) return; m.classList.add('open'); document.body.style.overflow='hidden';
-      const focusable=m.querySelector('.modal-close'); if(focusable) focusable.focus();
+      var m = document.getElementById(id);
+      if(!m) return;
+      m.classList.add('open');
+      document.body.style.overflow='hidden';
+      var focusable = m.querySelector('.modal-close');
+      if(focusable) focusable.focus();
     }
     function closeModal(id){
-      const m=document.getElementById(id); if(!m) return; m.classList.remove('open'); document.body.style.overflow='';
+      var m = document.getElementById(id);
+      if(!m) return;
+      m.classList.remove('open');
+      document.body.style.overflow='';
     }
+
+    // Qty controls
+    function bindQty(){
+      const minusBtn = $('#minusQty');
+      const plusBtn  = $('#plusQty');
+      if(minusBtn){ minusBtn.addEventListener('click',()=>{quantity.value=Math.max(1,Number(quantity.value||1)-1);recalc();}); }
+      if(plusBtn){  plusBtn.addEventListener('click',()=>{quantity.value=Math.max(1,Number(quantity.value||1)+1);recalc();}); }
+      if(quantity){ quantity.addEventListener('input',recalc); }
+    }
+
+    // Submit via Fetch (fallback to normal submit on error)
+    function bindForm(){
+      if(!form) return;
+      form.addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        recalc();
+        const endpoint = form.getAttribute('action');
+        const data = new FormData(form);
+        try{
+          const res = await fetch(endpoint,{ method:'POST', body:data, headers:{ 'Accept':'application/json' }});
+          if(res.ok){
+            form.reset();
+            // restore defaults
+            const sel = (id,val)=>{ const i = document.querySelector(`#${id} input[value="${val}"]`); if(i){ i.checked = true; } };
+            sel('step-tier','Node (remoteID only)');
+            sel('step-compliance','Non‑NDAA Compliant');
+            sel('step-connectivity','No Internet');
+            sel('step-power','AC Power Supply');
+            ['step-tier','step-compliance','step-connectivity','step-power'].forEach(id=>{
+              const sec = document.getElementById(id); if(!sec) return;
+              sec.querySelectorAll('.choice').forEach(c=>c.classList.remove('selected'));
+              sec.querySelectorAll('.choice input:checked').forEach(i=>{ const ch = i.closest('.choice'); if(ch) ch.classList.add('selected'); });
+            });
+            quantity.value = 1; recalc();
+            const toast = $('#toast'); if(toast){ toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'), 4500); }
+            window.scrollTo({top:0,behavior:'smooth'});
+          }else{
+            form.submit();
+          }
+        }catch(err){ form.submit(); }
+      });
+    }
+
+    // ---------- Init ----------
+    ['tier','compliance','connectivity','power'].forEach(ensureDefault);
+    ['step-tier','step-compliance','step-connectivity','step-power'].forEach(wireGroup);
+    bindQty();
     bindModals();
+    recalc();
+    bindForm();
+
+    // ---------- Self tests (console only) ----------
+    try{
+      console.assert(selected('tier').name.includes('Node'), 'Tier selected() should return a Node variant');
+      console.assert(typeof selected('connectivity').annual === 'number', 'Connectivity annual should be number');
+      console.assert(document.querySelector('#step-tier .choice input:checked'), 'Tier should have a default selection');
+      console.assert(document.querySelector('#step-compliance .choice input:checked'), 'Compliance should have a default selection');
+      // Simulate a selection change test (non-visual)
+      const np = document.querySelector('#step-tier .choice input[value="Node Pro (uncooperative detection)"]');
+      if(np){ np.checked = true; np.dispatchEvent(new Event('change',{bubbles:true})); console.assert(selected('tier').name.includes('Pro'), 'Selecting Node Pro should reflect in selected()'); }
+    }catch(e){ console.error('Self-test failed', e); }
   </script>
 </body>
 </html>
